@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#161719"/>
+      <stop offset="0.55" stop-color="#0a0b0c"/>
+      <stop offset="1" stop-color="#111817"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#5ee6b3" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#5ee6b3" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="meterGreen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#47d7a1"/>
+      <stop offset="1" stop-color="#67e0b4"/>
+    </linearGradient>
+    <linearGradient id="meterYellow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f1c84d"/>
+      <stop offset="1" stop-color="#ffdc6e"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-100%" width="140%" height="300%">
+      <feDropShadow dx="0" dy="24" stdDeviation="32" flood-color="#000" flood-opacity="0.62"/>
+    </filter>
+    <style>
+      .ui { font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; }
+      .mono { font-family: "SFMono-Regular", Menlo, Monaco, monospace; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="760" rx="28" fill="url(#bg)"/>
+  <ellipse cx="1090" cy="268" rx="430" ry="430" fill="url(#glow)"/>
+  <circle cx="1280" cy="100" r="148" fill="none" stroke="#fff" stroke-opacity="0.035" stroke-width="1"/>
+  <circle cx="1280" cy="100" r="212" fill="none" stroke="#fff" stroke-opacity="0.025" stroke-width="1"/>
+
+  <g class="ui">
+    <g transform="translate(92 70)">
+      <rect width="181" height="34" rx="17" fill="#fff" fill-opacity="0.07" stroke="#fff" stroke-opacity="0.12"/>
+      <circle cx="18" cy="17" r="5" fill="#58dca9"/>
+      <text x="32" y="22" fill="#dfe6e3" font-size="13" font-weight="650" letter-spacing="0.8">MACOS · TOUCH BAR</text>
+    </g>
+
+    <text x="92" y="190" fill="#f7f8f8" font-size="68" font-weight="700" letter-spacing="-3.2">ChatGPT Touch Bar</text>
+    <text x="94" y="245" fill="#aeb5b2" font-size="25" font-weight="430" letter-spacing="-0.35">See your Codex usage without leaving the conversation.</text>
+
+    <g transform="translate(92 302)">
+      <g>
+        <rect width="146" height="40" rx="20" fill="#58dca9" fill-opacity="0.11" stroke="#58dca9" stroke-opacity="0.25"/>
+        <text x="73" y="25" fill="#8ff0cb" font-size="14" font-weight="600" text-anchor="middle">No API key</text>
+      </g>
+      <g transform="translate(160 0)">
+        <rect width="167" height="40" rx="20" fill="#fff" fill-opacity="0.055" stroke="#fff" stroke-opacity="0.11"/>
+        <text x="83.5" y="25" fill="#d4d8d6" font-size="14" font-weight="600" text-anchor="middle">Native + Safari</text>
+      </g>
+      <g transform="translate(341 0)">
+        <rect width="154" height="40" rx="20" fill="#fff" fill-opacity="0.055" stroke="#fff" stroke-opacity="0.11"/>
+        <text x="77" y="25" fill="#d4d8d6" font-size="14" font-weight="600" text-anchor="middle">30s refresh</text>
+      </g>
+    </g>
+
+    <g transform="translate(92 426)" filter="url(#shadow)">
+      <rect width="1256" height="112" rx="19" fill="#030404" stroke="#fff" stroke-opacity="0.12"/>
+      <rect x="1" y="1" width="1254" height="110" rx="18" fill="none" stroke="#fff" stroke-opacity="0.035"/>
+
+      <g transform="translate(31 24)">
+        <circle cx="31" cy="31" r="30" fill="#17191a" stroke="#383c3b"/>
+        <g transform="translate(15 15)" fill="none" stroke="#f1f4f3" stroke-width="2.2" stroke-linecap="round">
+          <path d="M16 2c6 0 10 4 10 10v8c0 6-4 10-10 10S6 26 6 20v-8C6 6 10 2 16 2Z" transform="rotate(0 16 16)"/>
+          <path d="M16 2c6 0 10 4 10 10v8c0 6-4 10-10 10S6 26 6 20v-8C6 6 10 2 16 2Z" transform="rotate(60 16 16)"/>
+          <path d="M16 2c6 0 10 4 10 10v8c0 6-4 10-10 10S6 26 6 20v-8C6 6 10 2 16 2Z" transform="rotate(120 16 16)"/>
+        </g>
+        <text x="80" y="39" fill="#f5f6f6" font-size="26" font-weight="680">ChatGPT</text>
+      </g>
+
+      <rect x="246" y="25" width="1" height="62" fill="#353837"/>
+
+      <g transform="translate(283 24)">
+        <text x="0" y="20" fill="#929795" font-size="17" font-weight="540">5h</text>
+        <rect x="46" y="19" width="230" height="13" rx="6.5" fill="#343736"/>
+        <rect x="46" y="19" width="189" height="13" rx="6.5" fill="url(#meterGreen)"/>
+        <text x="296" y="34" fill="#f5f6f6" font-size="27" font-weight="700">82%</text>
+      </g>
+
+      <g transform="translate(686 24)">
+        <text x="0" y="20" fill="#929795" font-size="17" font-weight="540">Week</text>
+        <rect x="61" y="19" width="230" height="13" rx="6.5" fill="#343736"/>
+        <rect x="61" y="19" width="108" height="13" rx="6.5" fill="url(#meterYellow)"/>
+        <text x="311" y="34" fill="#f5f6f6" font-size="27" font-weight="700">47%</text>
+      </g>
+
+      <text x="1096" y="64" fill="#929795" font-size="16" font-weight="520">reset 17:59</text>
+    </g>
+
+    <g transform="translate(94 635)">
+      <text fill="#737b78" font-size="15" font-weight="520">FRONTMOST-AWARE</text>
+      <circle cx="176" cy="-5" r="2.5" fill="#4d5552"/>
+      <text x="196" fill="#737b78" font-size="15" font-weight="520">PRIVATE BY DESIGN</text>
+      <circle cx="374" cy="-5" r="2.5" fill="#4d5552"/>
+      <text x="394" fill="#737b78" font-size="15" font-weight="520">OPEN SOURCE</text>
+    </g>
+
+    <text class="mono" x="1348" y="690" fill="#606763" font-size="13" text-anchor="end">v0.2.0</text>
+  </g>
+</svg>
