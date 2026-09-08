@@ -24,6 +24,7 @@ Safari with `chatgpt.com` frontmost (v0.2.0; the current version has a larger ic
 - Replaces Safari's contextual controls only while a supported ChatGPT page is frontmost.
 - Restores the standard Touch Bar when another app or website becomes active.
 - Uses your existing Codex authentication—no API key or paid developer API usage is required.
+- Includes an optional Survival Mode with pixel hearts, drumsticks, and a pixel OpenAI logo.
 
 ## Requirements
 
@@ -82,6 +83,19 @@ To verify the data source without showing the UI:
 ```bash
 swift run ChatGPTTouchBar --once-json
 ```
+
+### Survival Mode
+
+Tap the ChatGPT logo **five times within three seconds** to enter Survival Mode. Repeat to return to the standard meters; your choice is saved across restarts.
+
+![Survival Mode Touch Bar design](design/survival-mode.svg)
+
+- Ten hearts show five-hour remaining capacity; ten drumsticks show weekly remaining capacity.
+- Each half icon represents 5%. Icons round down; the numeric percentage keeps the normal display precision.
+- The full reset label is unchanged. Dim empty icons with `—` mean unavailable/loading, not zero remaining capacity.
+- To fit the icons, this theme hides the `ChatGPT` wordmark but keeps its tappable logo.
+
+Editable artwork is in [`design/pixel/`](design/pixel/): 16×16 meters and a 20×20 OpenAI pixel logo traced from the bundled template to preserve its interwoven bands. No Minecraft game textures are bundled. The OpenAI logo remains OpenAI's trademark.
 
 ## How it works
 
@@ -163,6 +177,8 @@ open dist/ChatGPTTouchBar.app
 Safariを初めて検出するときは、macOSのAutomation権限を許可してください。確認するのは現在のタブURLだけで、画面・ページ本文・Cookie・会話内容は取得しません。
 
 常用する場合は、Finderで `dist/ChatGPTTouchBar.app` を「アプリケーション」フォルダへコピーして起動してください。Dockアイコンや通常のウインドウは表示されません。自動起動は「システム設定 → 一般 → ログイン項目」から追加できます。
+
+ロゴを3秒以内に5回タップすると「サバイバルモード」へ切り替わり、OpenAIロゴ、5時間のハート、週次の骨付き肉がドット絵になります。再度5回で通常表示に戻り、選択は再起動後も保存されます。半個が5%で、端数は切り捨てます。数値の％とリセット表示は維持します。このテーマではスペース確保のためロゴ横の「ChatGPT」文字のみ非表示にしています。
 
 更新は `git pull --ff-only` と `./scripts/build_app.sh` を実行し、起動中のヘルパーを終了してからアプリを入れ替えます。終了にはアクティビティモニタ、または `pkill -x ChatGPTTouchBar` を使えます。削除するときはログイン項目から外し、アプリをゴミ箱へ移動してください。
 

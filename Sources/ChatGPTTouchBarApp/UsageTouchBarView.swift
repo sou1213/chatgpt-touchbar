@@ -16,12 +16,43 @@ final class UsageTouchBarView: NSView {
     override var intrinsicContentSize: NSSize { NSSize(width: 720, height: 30) }
 
     private static let chatGPTIcon = loadChatGPTIcon()
+    private var survivalMode = UserDefaults.standard.bool(forKey: "survivalMode")
+    private var logoTapTimes: [TimeInterval] = []
+
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        let button = NSButton(frame: NSRect(x: 4, y: 0, width: 32, height: 30))
+        button.isTransparent = true
+        button.title = ""
+        button.target = self
+        button.action = #selector(tapLogo)
+        button.setAccessibilityLabel("ChatGPT: tap five times to switch theme")
+        addSubview(button)
+    }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    @objc private func tapLogo() {
+        let now = ProcessInfo.processInfo.systemUptime
+        logoTapTimes = logoTapTimes.filter { now - $0 < 3 }
+        logoTapTimes.append(now)
+        if logoTapTimes.count >= 5 {
+            survivalMode.toggle()
+            UserDefaults.standard.set(survivalMode, forKey: "survivalMode")
+            logoTapTimes.removeAll()
+            needsDisplay = true
+        }
+    }
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         Palette.background.setFill()
         bounds.fill()
         drawProvider()
+        if survivalMode {
+            drawSurvivalState()
+            return
+        }
         drawDivider()
 
         switch state {
@@ -44,7 +75,9 @@ final class UsageTouchBarView: NSView {
         Palette.iconBackground.setFill()
         NSBezierPath(roundedRect: NSRect(x: 8, y: 3, width: 24, height: 24), xRadius: 12, yRadius: 12).fill()
 
-        if let chatGPTIcon = Self.chatGPTIcon {
+        if survivalMode {
+            PixelMeterArt.drawLogo(at: NSPoint(x: 10, y: 5))
+        } else if let chatGPTIcon = Self.chatGPTIcon {
             chatGPTIcon.draw(
                 in: NSRect(x: 11, y: 6, width: 18, height: 18),
                 from: .zero,
@@ -57,7 +90,37 @@ final class UsageTouchBarView: NSView {
             drawText("✦", in: NSRect(x: 11, y: 5, width: 18, height: 20), style: .icon, alignment: .center)
         }
 
-        drawText("ChatGPT", in: NSRect(x: 36, y: 7, width: 58, height: 16), style: .provider)
+        if !survivalMode {
+            drawText("ChatGPT", in: NSRect(x: 36, y: 7, width: 58, height: 16), style: .provider)
+        }
+    }
+
+    private func drawSurvivalState() {
+        switch state {
+        case .loaded(let snapshot):
+            drawSurvivalMetric(snapshot.primary, label: snapshot.primary.label, x: 44, food: false)
+            drawSurvivalMetric(snapshot.secondary, label: snapshot.secondary?.label ?? "Week", x: 288, food: true)
+            drawReset(for: snapshot.primary)
+        case .loading, .unavailable:
+            drawSurvivalMetric(nil, label: "5h", x: 44, food: false)
+            drawSurvivalMetric(nil, label: "Week", x: 288, food: true)
+            let message: String
+            if case .unavailable(let reason) = state { message = reason } else { message = "loading…" }
+            drawText(message, in: NSRect(x: 568, y: 9, width: 150, height: 14), style: .caption)
+        }
+    }
+
+    private func drawSurvivalMetric(_ window: UsageWindow?, label: String, x: CGFloat, food: Bool) {
+        let labelWidth: CGFloat = food ? 38 : 24
+        drawText(label, in: NSRect(x: x, y: 8, width: labelWidth, height: 15), style: .metricLabel)
+        let start = x + labelWidth + 4
+        let halves = window.map { SurvivalMeter.halfSlots(remainingPercent: $0.remainingPercent) } ?? 0
+        for slot in 0..<10 {
+            PixelMeterArt.draw(food: food, halves: min(2, max(0, halves - slot * 2)),
+                               at: NSPoint(x: start + CGFloat(slot * 17), y: 7), unknown: window == nil)
+        }
+        let value = window.map { "\(Int($0.remainingPercent.rounded()))%" } ?? "—"
+        drawText(value, in: NSRect(x: start + 173, y: 7, width: 38, height: 17), style: .value)
     }
 
     private static func loadChatGPTIcon() -> NSImage? {
@@ -116,8 +179,9 @@ final class UsageTouchBarView: NSView {
     }
 
     private func drawReset(for window: UsageWindow) {
+        let resetX: CGFloat = survivalMode ? 568 : 548
         guard let resetsAt = window.resetsAt else {
-            drawText("reset —", in: NSRect(x: 548, y: 9, width: 150, height: 14), style: .caption)
+            drawText("reset —", in: NSRect(x: resetX, y: 9, width: 150, height: 14), style: .caption)
             return
         }
         let formatter = DateFormatter()
@@ -125,7 +189,7 @@ final class UsageTouchBarView: NSView {
         formatter.dateFormat = "HH:mm"
         drawText(
             "\(window.label) reset \(formatter.string(from: resetsAt))",
-            in: NSRect(x: 548, y: 9, width: 150, height: 14),
+            in: NSRect(x: resetX, y: 9, width: 150, height: 14),
             style: .caption
         )
     }
