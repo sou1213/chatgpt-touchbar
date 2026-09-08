@@ -11,7 +11,7 @@ An unofficial macOS helper that shows your Codex five-hour and weekly usage limi
 
 ## Screenshot
 
-Safari with `chatgpt.com` frontmost:
+Safari with `chatgpt.com` frontmost (v0.2.0; the current version has a larger icon and clearer labels):
 
 ![ChatGPT usage shown on a MacBook Pro Touch Bar](docs/images/safari-touch-bar.png)
 
@@ -46,6 +46,16 @@ open dist/ChatGPTTouchBar.app
 ```
 
 The generated app is ad-hoc signed and stays out of the Dock. To launch it automatically, add `dist/ChatGPTTouchBar.app` in **System Settings → General → Login Items**.
+
+For a permanent location, use Finder to copy `dist/ChatGPTTouchBar.app` into your Applications folder, then launch that copy and add it to Login Items. Keep only one copy running. On macOS Monterey, Login Items is under **System Preferences → Users & Groups**.
+
+If `swift` is unavailable, install Apple's Command Line Tools with `xcode-select --install`. Check `swift --version`: this project requires Swift 5.9 or later, which may require a newer Xcode/macOS combination than the app's macOS 12 runtime minimum.
+
+### Update or uninstall
+
+To update a source installation, run `git pull --ff-only`, then `./scripts/build_app.sh`. Quit the running helper before replacing your installed app with the new build and reopening it.
+
+To uninstall, quit the helper, remove it from Login Items if added, and move `ChatGPTTouchBar.app` to the Trash. Your ChatGPT/Codex account and authentication remain intact.
 
 To stop it:
 
@@ -95,8 +105,22 @@ Example:
 
 ```bash
 CHATGPT_TOUCHBAR_TARGET_WEB_HOSTS="chatgpt.com,chat.openai.com" \
-  open dist/ChatGPTTouchBar.app
+  ./dist/ChatGPTTouchBar.app/Contents/MacOS/ChatGPTTouchBar
 ```
+
+Quit an existing instance first. This example runs the executable directly so it inherits the shell environment; Finder launches do not use these shell settings. Changing target apps or hosts only changes when the bar appears; it does not add another AI provider or switch accounts.
+
+## Troubleshooting
+
+| Symptom | What to check |
+| --- | --- |
+| No Dock icon or app window | Expected: this is a background helper. Activate ChatGPT or a supported Safari tab. |
+| Safari keeps showing its usual controls | Allow Safari under Automation permissions, and make sure the active tab is on a supported host. |
+| `codex not found` | Install ChatGPT/Codex with its bundled CLI, or set `CHATGPT_TOUCHBAR_CODEX_BINARY` to your CLI path. |
+| `usage unavailable` | Run `swift run ChatGPTTouchBar --once-json` and confirm that the local Codex account is signed in and can report usage. |
+| Numbers differ from the browser account | The local Codex account supplies the numbers. Signing into another account in Safari does not change that data source. |
+
+If you report an [issue](https://github.com/sou1213/chatgpt-touchbar/issues), include your Mac model, macOS version, and the error message. Remove account details and private information from logs before sharing them.
 
 ## Development
 
@@ -137,6 +161,12 @@ open dist/ChatGPTTouchBar.app
 ```
 
 Safariを初めて検出するときは、macOSのAutomation権限を許可してください。確認するのは現在のタブURLだけで、画面・ページ本文・Cookie・会話内容は取得しません。
+
+常用する場合は、Finderで `dist/ChatGPTTouchBar.app` を「アプリケーション」フォルダへコピーして起動してください。Dockアイコンや通常のウインドウは表示されません。自動起動は「システム設定 → 一般 → ログイン項目」から追加できます。
+
+更新は `git pull --ff-only` と `./scripts/build_app.sh` を実行し、起動中のヘルパーを終了してからアプリを入れ替えます。終了にはアクティビティモニタ、または `pkill -x ChatGPTTouchBar` を使えます。削除するときはログイン項目から外し、アプリをゴミ箱へ移動してください。
+
+ブラウザとローカルCodexで異なるアカウントを使っている場合、表示される残量はローカルCodex側のものです。取得できない場合は `swift run ChatGPTTouchBar --once-json` でエラーを確認してください。
 
 表示されるのはCodex/Workの共有利用枠です。通常のChatGPTチャットモデルすべての利用上限を取得するものではありません。
 

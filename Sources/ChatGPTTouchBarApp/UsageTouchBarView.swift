@@ -42,11 +42,11 @@ final class UsageTouchBarView: NSView {
 
     private func drawProvider() {
         Palette.iconBackground.setFill()
-        NSBezierPath(roundedRect: NSRect(x: 11, y: 6, width: 18, height: 18), xRadius: 9, yRadius: 9).fill()
+        NSBezierPath(roundedRect: NSRect(x: 8, y: 3, width: 24, height: 24), xRadius: 12, yRadius: 12).fill()
 
         if let chatGPTIcon = Self.chatGPTIcon {
             chatGPTIcon.draw(
-                in: NSRect(x: 14, y: 9, width: 12, height: 12),
+                in: NSRect(x: 11, y: 6, width: 18, height: 18),
                 from: .zero,
                 operation: .sourceOver,
                 fraction: 1,
@@ -54,7 +54,7 @@ final class UsageTouchBarView: NSView {
                 hints: [.interpolation: NSImageInterpolation.high]
             )
         } else {
-            drawText("✦", in: NSRect(x: 14, y: 7, width: 12, height: 16), style: .icon, alignment: .center)
+            drawText("✦", in: NSRect(x: 11, y: 5, width: 18, height: 20), style: .icon, alignment: .center)
         }
 
         drawText("ChatGPT", in: NSRect(x: 36, y: 7, width: 58, height: 16), style: .provider)
@@ -91,7 +91,7 @@ final class UsageTouchBarView: NSView {
 
     private func drawMetric(window: UsageWindow?, label: String, originX: CGFloat) {
         let labelWidth: CGFloat = label.count > 3 ? 38 : 24
-        drawText(label, in: NSRect(x: originX, y: 9, width: labelWidth, height: 14), style: .caption)
+        drawText(label, in: NSRect(x: originX, y: 8, width: labelWidth, height: 15), style: .metricLabel)
 
         let barX = originX + labelWidth + 6
         let barRect = NSRect(x: barX, y: 12, width: 118, height: 6)
@@ -163,6 +163,7 @@ private enum TextStyle {
     case provider
     case value
     case caption
+    case metricLabel
     case icon
 
     var font: NSFont {
@@ -170,11 +171,13 @@ private enum TextStyle {
         case .provider:
             return .systemFont(ofSize: 11, weight: .semibold)
         case .value:
-            return .systemFont(ofSize: 12, weight: .bold)
+            return .monospacedDigitSystemFont(ofSize: 12, weight: .bold)
         case .caption:
             return .systemFont(ofSize: 9, weight: .medium)
         case .icon:
-            return .systemFont(ofSize: 10, weight: .semibold)
+            return .systemFont(ofSize: 15, weight: .semibold)
+        case .metricLabel:
+            return .systemFont(ofSize: 10, weight: .medium)
         }
     }
 
@@ -182,6 +185,8 @@ private enum TextStyle {
         switch self {
         case .caption:
             return Palette.mutedText
+        case .metricLabel:
+            return Palette.metricLabelText
         default:
             return Palette.primaryText
         }
@@ -192,6 +197,7 @@ private enum Palette {
     static let background = NSColor.black
     static let primaryText = NSColor(calibratedWhite: 0.97, alpha: 1)
     static let mutedText = NSColor(calibratedWhite: 0.57, alpha: 1)
+    static let metricLabelText = NSColor(calibratedWhite: 0.68, alpha: 1)
     static let iconBackground = NSColor(calibratedWhite: 0.10, alpha: 1)
     static let track = NSColor(calibratedWhite: 0.19, alpha: 1)
     static let good = NSColor(calibratedRed: 0.22, green: 0.85, blue: 0.54, alpha: 1)
