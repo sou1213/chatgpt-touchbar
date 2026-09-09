@@ -1,13 +1,35 @@
 # ChatGPT Touch Bar
 
+**English** | [日本語](README.ja.md)
+
+[![CI](https://img.shields.io/github/actions/workflow/status/sou1213/chatgpt-touchbar/ci.yml?branch=main&label=CI)](https://github.com/sou1213/chatgpt-touchbar/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/sou1213/chatgpt-touchbar?label=license)](LICENSE)
+[![macOS 12+](https://img.shields.io/badge/macOS-12%2B-black?logo=apple)](#requirements)
+[![Swift 5.9+](https://img.shields.io/badge/Swift-5.9%2B-F05138?logo=swift&logoColor=white)](#requirements)
+
 ![ChatGPT Touch Bar hero](docs/images/figma-readme-hero.png)
 
 An unofficial macOS helper that shows your Codex five-hour and weekly usage limits on a MacBook Pro Touch Bar while ChatGPT/Codex—or a ChatGPT tab in Safari—is frontmost.
 
-[日本語](#日本語) · [Install](#installation) · [How it works](#how-it-works) · [Privacy](#privacy) · [Figma design](https://www.figma.com/design/GShJz9Hb4yaNBMlk3zwZNu/ChatGPT-Touch-Bar-OSS-Design?node-id=3-8)
+[Install](#installation) · [How it works](#how-it-works) · [Privacy](#privacy) · [Figma design](https://www.figma.com/design/GShJz9Hb4yaNBMlk3zwZNu/ChatGPT-Touch-Bar-OSS-Design?node-id=3-8)
 
 > [!NOTE]
 > This displays the Codex/Work rate-limit windows exposed by Codex App Server. It does not report every ChatGPT model or feature limit.
+
+## Table of Contents
+
+- [Screenshot](#screenshot)
+- [Features](#features)
+- [Survival Mode](#survival-mode)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [How it works](#how-it-works)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
+- [Development](#development)
+- [Privacy](#privacy)
+- [License](#license)
 
 ## Screenshot
 
@@ -86,14 +108,27 @@ swift run ChatGPTTouchBar --once-json
 
 ### Survival Mode
 
-Tap the ChatGPT logo **five times within three seconds** to enter Survival Mode. Repeat to return to the standard meters; your choice is saved across restarts.
+Your Touch Bar has a survival HUD now.
+
+Five-hour capacity becomes hearts. Weekly capacity becomes a hunger meter. Even the OpenAI logo goes pixelated. As you use your quota, the icons empty out—“23% remaining” suddenly feels a lot more personal.
+
+The secret handshake: **tap the logo five times within three seconds.** Welcome to Survival Mode.
 
 ![Survival Mode Touch Bar design](design/survival-mode.svg)
 
-- Ten hearts show five-hour remaining capacity; ten drumsticks show weekly remaining capacity.
-- Each half icon represents 5%. Icons round down; the numeric percentage keeps the normal display precision.
-- The full reset label is unchanged. Dim empty icons with `—` mean unavailable/loading, not zero remaining capacity.
-- To fit the icons, this theme hides the `ChatGPT` wordmark but keeps its tappable logo.
+It's a Minecraft-inspired way to keep an eye on your remaining quota. The percentage and reset time stay visible, so you can still decide whether to squeeze in one more request or take a break.
+
+Tap the logo five more times within three seconds to return to the standard meters. Your choice is remembered across restarts.
+
+<details>
+<summary>How to read the meters</summary>
+
+- Ten hearts represent five-hour remaining capacity; ten drumsticks represent weekly remaining capacity.
+- One full icon represents 10%, and a half icon represents 5%. Icons round down; the number shows the percentage rounded to a whole number.
+- Dim empty icons with `—` mean loading or unavailable data, not zero remaining capacity.
+- The `ChatGPT` wordmark is hidden in this mode to make room for the icons. The logo remains tappable.
+
+</details>
 
 Editable artwork is in [`design/pixel/`](design/pixel/): 16×16 meters and a 20×20 OpenAI pixel logo traced from the bundled template to preserve its interwoven bands. No Minecraft game textures are bundled. The OpenAI logo remains OpenAI's trademark.
 
@@ -161,30 +196,6 @@ Contributions are welcome—see [CONTRIBUTING.md](CONTRIBUTING.md).
 - Safari is the only supported web browser in this release.
 - The project has been developed for Touch Bar hardware and cannot be meaningfully tested on Macs without one.
 - This project is unofficial and is not affiliated with or endorsed by OpenAI. ChatGPT and Codex are trademarks of their respective owner.
-
-## 日本語
-
-ChatGPT/Codexアプリ、またはSafariのChatGPTタブが最前面の間だけ、Codexの5時間枠・週次枠・リセット時刻をTouch Barへ表示するmacOS常駐ヘルパーです。
-
-```bash
-git clone https://github.com/sou1213/chatgpt-touchbar.git
-cd chatgpt-touchbar
-swift test
-./scripts/build_app.sh
-open dist/ChatGPTTouchBar.app
-```
-
-Safariを初めて検出するときは、macOSのAutomation権限を許可してください。確認するのは現在のタブURLだけで、画面・ページ本文・Cookie・会話内容は取得しません。
-
-常用する場合は、Finderで `dist/ChatGPTTouchBar.app` を「アプリケーション」フォルダへコピーして起動してください。Dockアイコンや通常のウインドウは表示されません。自動起動は「システム設定 → 一般 → ログイン項目」から追加できます。
-
-ロゴを3秒以内に5回タップすると「サバイバルモード」へ切り替わり、OpenAIロゴ、5時間のハート、週次の骨付き肉がドット絵になります。再度5回で通常表示に戻り、選択は再起動後も保存されます。半個が5%で、端数は切り捨てます。数値の％とリセット表示は維持します。このテーマではスペース確保のためロゴ横の「ChatGPT」文字のみ非表示にしています。
-
-更新は `git pull --ff-only` と `./scripts/build_app.sh` を実行し、起動中のヘルパーを終了してからアプリを入れ替えます。終了にはアクティビティモニタ、または `pkill -x ChatGPTTouchBar` を使えます。削除するときはログイン項目から外し、アプリをゴミ箱へ移動してください。
-
-ブラウザとローカルCodexで異なるアカウントを使っている場合、表示される残量はローカルCodex側のものです。取得できない場合は `swift run ChatGPTTouchBar --once-json` でエラーを確認してください。
-
-表示されるのはCodex/Workの共有利用枠です。通常のChatGPTチャットモデルすべての利用上限を取得するものではありません。
 
 ## License
 
