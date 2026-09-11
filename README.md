@@ -1,4 +1,6 @@
-# ChatGPT Touch Bar
+<h1 align="center">
+  <img src="docs/images/chatgpt-touchbar-logo.svg" alt="ChatGPT Touch Bar" width="760">
+</h1>
 
 **English** | [日本語](README.ja.md)
 

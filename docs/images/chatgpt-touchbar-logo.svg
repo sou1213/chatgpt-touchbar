@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="124" viewBox="0 0 760 124" role="img" aria-labelledby="title description">
+  <title id="title">ChatGPT Touch Bar</title>
+  <desc id="description">ChatGPT Touch Bar project logo with compact five-hour and weekly usage meters.</desc>
+
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#141718"/>
+      <stop offset="0.55" stop-color="#0b0e0f"/>
+      <stop offset="1" stop-color="#10211c"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#44d7a4"/>
+      <stop offset="1" stop-color="#76e5bb"/>
+    </linearGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f5c84c"/>
+      <stop offset="1" stop-color="#ffe06f"/>
+    </linearGradient>
+    <mask id="chatgpt-mark" x="22" y="22" width="36" height="36" maskUnits="userSpaceOnUse" mask-type="alpha">
+      <image x="22" y="22" width="36" height="36" href="data:image/png;base64,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"/>
+    </mask>
+  </defs>
+
+  <rect x="1" y="1" width="758" height="122" rx="27" fill="url(#panel)" stroke="#303635" stroke-width="2"/>
+  <rect x="10" y="10" width="740" height="104" rx="20" fill="none" stroke="#ffffff" stroke-opacity="0.035"/>
+
+  <g transform="translate(28 22)">
+    <circle cx="40" cy="40" r="39" fill="#1b1f20" stroke="#444b49"/>
+    <rect x="22" y="22" width="36" height="36" fill="#f3f6f5" mask="url(#chatgpt-mark)"/>
+  </g>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <text x="124" y="59" fill="#f6f8f7" font-size="34" font-weight="720" letter-spacing="-1.2">ChatGPT</text>
+    <text x="125" y="86" fill="#8f9794" font-size="13" font-weight="650" letter-spacing="3.7">TOUCH BAR</text>
+    <rect x="124" y="96" width="184" height="3" rx="1.5" fill="url(#accent)"/>
+
+    <rect x="342" y="29" width="1" height="66" fill="#363b3a"/>
+
+    <g transform="translate(374 30)">
+      <text x="0" y="16" fill="#9ca29f" font-size="14" font-weight="600">5h</text>
+      <rect x="28" y="7" width="116" height="10" rx="5" fill="#353938"/>
+      <rect x="28" y="7" width="91" height="10" rx="5" fill="url(#accent)"/>
+      <text x="155" y="17" fill="#f4f6f5" font-size="17" font-weight="700">82%</text>
+
+      <text x="0" y="56" fill="#9ca29f" font-size="14" font-weight="600">Week</text>
+      <rect x="48" y="47" width="116" height="10" rx="5" fill="#353938"/>
+      <rect x="48" y="47" width="55" height="10" rx="5" fill="url(#warm)"/>
+      <text x="175" y="57" fill="#f4f6f5" font-size="17" font-weight="700">47%</text>
+    </g>
+
+    <text x="692" y="66" fill="#5ce0ad" font-size="18" font-weight="700">●</text>
+  </g>
+</svg>

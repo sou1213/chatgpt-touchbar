@@ -16,6 +16,7 @@ final class UsageTouchBarView: NSView {
     override var intrinsicContentSize: NSSize { NSSize(width: 720, height: 30) }
 
     private static let chatGPTIcon = loadChatGPTIcon()
+    private static let trailingTextX: CGFloat = 542
     private var survivalMode = UserDefaults.standard.bool(forKey: "survivalMode")
     private var logoTapTimes: [TimeInterval] = []
 
@@ -59,7 +60,7 @@ final class UsageTouchBarView: NSView {
         case .loading:
             drawMetric(window: nil, label: "5h", originX: 110)
             drawMetric(window: nil, label: "Week", originX: 318)
-            drawText("loading…", in: NSRect(x: 548, y: 9, width: 150, height: 14), style: .caption)
+            drawText("loading…", in: NSRect(x: Self.trailingTextX, y: 9, width: 150, height: 14), style: .caption)
         case .loaded(let snapshot):
             drawMetric(window: snapshot.primary, label: snapshot.primary.label, originX: 110)
             drawMetric(window: snapshot.secondary, label: snapshot.secondary?.label ?? "Week", originX: 318)
@@ -67,7 +68,7 @@ final class UsageTouchBarView: NSView {
         case .unavailable(let message):
             drawMetric(window: nil, label: "5h", originX: 110)
             drawMetric(window: nil, label: "Week", originX: 318)
-            drawText(message, in: NSRect(x: 548, y: 9, width: 150, height: 14), style: .caption)
+            drawText(message, in: NSRect(x: Self.trailingTextX, y: 9, width: 150, height: 14), style: .caption)
         }
     }
 
@@ -106,7 +107,7 @@ final class UsageTouchBarView: NSView {
             drawSurvivalMetric(nil, label: "Week", x: 288, food: true)
             let message: String
             if case .unavailable(let reason) = state { message = reason } else { message = "loading…" }
-            drawText(message, in: NSRect(x: 568, y: 9, width: 150, height: 14), style: .caption)
+            drawText(message, in: NSRect(x: Self.trailingTextX, y: 9, width: 150, height: 14), style: .caption)
         }
     }
 
@@ -179,9 +180,8 @@ final class UsageTouchBarView: NSView {
     }
 
     private func drawReset(for window: UsageWindow) {
-        let resetX: CGFloat = survivalMode ? 568 : 548
         guard let resetsAt = window.resetsAt else {
-            drawText("reset —", in: NSRect(x: resetX, y: 9, width: 150, height: 14), style: .caption)
+            drawText("reset —", in: NSRect(x: Self.trailingTextX, y: 9, width: 150, height: 14), style: .caption)
             return
         }
         let formatter = DateFormatter()
@@ -189,7 +189,7 @@ final class UsageTouchBarView: NSView {
         formatter.dateFormat = "HH:mm"
         drawText(
             "\(window.label) reset \(formatter.string(from: resetsAt))",
-            in: NSRect(x: resetX, y: 9, width: 150, height: 14),
+            in: NSRect(x: Self.trailingTextX, y: 9, width: 150, height: 14),
             style: .caption
         )
     }
