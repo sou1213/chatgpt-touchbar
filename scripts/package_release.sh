@@ -110,7 +110,8 @@ trap 'rm -rf "${STAGING_DIR}"' EXIT
 ln -s /Applications "${STAGING_DIR}/Applications"
 cp "${PROJECT_DIR}/LICENSE" "${STAGING_DIR}/LICENSE.txt"
 
-if /usr/sbin/diskutil help image create from >/dev/null 2>&1; then
+if /usr/sbin/diskutil help image create from 2>&1 \
+  | /usr/bin/grep -q -- '--volumeName'; then
   /usr/sbin/diskutil image create from \
     --format UDZO \
     --volumeName "ChatGPT Touch Bar" \
