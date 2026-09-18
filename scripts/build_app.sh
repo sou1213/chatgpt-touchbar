@@ -41,8 +41,8 @@ rm -rf "${APP_DIR}"
 mkdir -p "${APP_DIR}/Contents/MacOS" "${APP_DIR}/Contents/Resources"
 cp "${BIN_DIR}/ChatGPTTouchBar" "${APP_DIR}/Contents/MacOS/ChatGPTTouchBar"
 for architecture in "${ARCHITECTURE_LIST[@]}"; do
-  /usr/bin/lipo -verify_arch "${architecture}" \
-    "${APP_DIR}/Contents/MacOS/ChatGPTTouchBar"
+  /usr/bin/lipo "${APP_DIR}/Contents/MacOS/ChatGPTTouchBar" \
+    -verify_arch "${architecture}"
 done
 cp "${PROJECT_DIR}/AppBundle/Info.plist" "${INFO_PLIST}"
 if [[ -n "${APP_VERSION}" ]]; then
