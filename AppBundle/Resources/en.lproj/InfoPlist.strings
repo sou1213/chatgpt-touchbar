@@ -1,0 +1,2 @@
+"CFBundleDisplayName" = "ChatGPT Touch Bar";
+"NSAppleEventsUsageDescription" = "ChatGPT Touch Bar reads only Safari's active tab URL to detect supported ChatGPT pages and show usage on the Touch Bar.";

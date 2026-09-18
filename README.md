@@ -5,6 +5,7 @@
 **English** | [日本語](README.ja.md)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/sou1213/chatgpt-touchbar/ci.yml?branch=main&label=CI)](https://github.com/sou1213/chatgpt-touchbar/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/sou1213/chatgpt-touchbar?display_name=tag&label=release)](https://github.com/sou1213/chatgpt-touchbar/releases/latest)
 [![License](https://img.shields.io/github/license/sou1213/chatgpt-touchbar?label=license)](LICENSE)
 [![macOS 12+](https://img.shields.io/badge/macOS-12%2B-black?logo=apple)](#requirements)
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9%2B-F05138?logo=swift&logoColor=white)](#requirements)
@@ -54,13 +55,29 @@ Safari with `chatgpt.com` frontmost (v0.2.0; the current version has a larger ic
 
 - A MacBook Pro with a Touch Bar.
 - macOS 12 Monterey or later.
-- Swift 5.9 or later and Xcode Command Line Tools.
 - ChatGPT, Codex, or the Codex CLI installed and signed in.
 - Safari for web-page detection. Other browsers are not supported yet.
 
+Building from source additionally requires Swift 5.9 or later and Xcode Command Line Tools. They are not required when installing the release app.
+
+The release app is a Universal Binary for both Intel and Apple Silicon Touch Bar models.
+
 ## Installation
 
-There is no signed binary release yet. Build the app locally:
+### Download the app (recommended)
+
+1. Open the [latest GitHub Release](https://github.com/sou1213/chatgpt-touchbar/releases/latest).
+2. Download the `ChatGPTTouchBar-…-macOS.dmg` file and open it.
+3. Drag **ChatGPTTouchBar.app** onto the **Applications** shortcut.
+4. Open ChatGPT Touch Bar from the Applications folder.
+
+Release downloads are signed with a Developer ID certificate, notarized by Apple, and stapled for offline Gatekeeper verification. The helper runs in the background, so it intentionally has no Dock icon or app window.
+
+The ZIP in each Release contains the same app for users who prefer an archive. `SHA256SUMS.txt` and a GitHub build-provenance attestation are published alongside it.
+
+### Build from source (CLI)
+
+The source installation remains available:
 
 ```bash
 git clone https://github.com/sou1213/chatgpt-touchbar.git
@@ -70,7 +87,7 @@ swift test
 open dist/ChatGPTTouchBar.app
 ```
 
-The generated app is ad-hoc signed and stays out of the Dock. To launch it automatically, add `dist/ChatGPTTouchBar.app` in **System Settings → General → Login Items**.
+The locally generated app is ad-hoc signed and stays out of the Dock. To launch it automatically, add `dist/ChatGPTTouchBar.app` in **System Settings → General → Login Items**.
 
 For a permanent location, use Finder to copy `dist/ChatGPTTouchBar.app` into your Applications folder, then launch that copy and add it to Login Items. Keep only one copy running. On macOS Monterey, Login Items is under **System Preferences → Users & Groups**.
 
@@ -78,7 +95,7 @@ If `swift` is unavailable, install Apple's Command Line Tools with `xcode-select
 
 ### Update or uninstall
 
-To update a source installation, run `git pull --ff-only`, then `./scripts/build_app.sh`. Quit the running helper before replacing your installed app with the new build and reopening it.
+To update a Release installation, download the latest DMG, quit ChatGPT Touch Bar, and replace the copy in Applications. To update a source installation, run `git pull --ff-only`, then `./scripts/build_app.sh`. Quit the running helper before replacing your installed app with the new build and reopening it.
 
 To uninstall, quit the helper, remove it from Login Items if added, and move `ChatGPTTouchBar.app` to the Trash. Your ChatGPT/Codex account and authentication remain intact.
 
@@ -93,6 +110,8 @@ pkill -x ChatGPTTouchBar
 The first time Safari detection runs, macOS asks whether ChatGPT Touch Bar may control Safari. Allow it so the helper can read the active tab URL.
 
 If the prompt was denied, enable it later in **System Settings → Privacy & Security → Automation**.
+
+Upgrading from a build earlier than v0.3.0 may show the prompt again because the public release uses a stable bundle identifier.
 
 The helper reads only the active Safari tab URL. It does not read page content, screenshots, cookies, messages, or form data.
 
@@ -179,9 +198,12 @@ If you report an [issue](https://github.com/sou1213/chatgpt-touchbar/issues), in
 swift test
 swift run ChatGPTTouchBar --once-json
 ./scripts/build_app.sh
+./scripts/package_release.sh 0.3.0
 ```
 
 The Figma-designed README artwork is also available as editable source at [`design/readme-hero.svg`](design/readme-hero.svg). Earlier layout explorations live in [`design/`](design/).
+
+Release builds are produced only by the tag-triggered GitHub Actions workflow. Maintainers should follow [`docs/RELEASING.md`](docs/RELEASING.md); a local package is for testing and must not be published as an official Release.
 
 Contributions are welcome—see [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -197,6 +219,7 @@ Contributions are welcome—see [CONTRIBUTING.md](CONTRIBUTING.md).
 - The system-modal Touch Bar presentation relies on private macOS selectors. It is unsuitable for Mac App Store distribution and may stop working after a macOS update.
 - Safari is the only supported web browser in this release.
 - The project has been developed for Touch Bar hardware and cannot be meaningfully tested on Macs without one.
+- Builds made locally are ad-hoc signed. Only assets attached to an official GitHub Release are Developer ID signed and notarized.
 - This project is unofficial and is not affiliated with or endorsed by OpenAI. ChatGPT and Codex are trademarks of their respective owner.
 
 ## License

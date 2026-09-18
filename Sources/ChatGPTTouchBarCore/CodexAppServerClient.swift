@@ -96,7 +96,9 @@ public final class CodexAppServerClient {
                     "clientInfo": [
                         "name": "chatgpt_touchbar",
                         "title": "ChatGPT Touch Bar",
-                        "version": "0.2.0"
+                        "version": Bundle.main.object(
+                            forInfoDictionaryKey: "CFBundleShortVersionString"
+                        ) as? String ?? "development"
                     ]
                 ]
             ],

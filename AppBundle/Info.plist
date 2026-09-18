@@ -3,28 +3,39 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleDevelopmentRegion</key>
-  <string>ja</string>
+  <string>en</string>
   <key>CFBundleExecutable</key>
   <string>ChatGPTTouchBar</string>
   <key>CFBundleIdentifier</key>
-  <string>com.local.chatgpt-touchbar</string>
+  <string>io.github.sou1213.chatgpt-touchbar</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
+  <key>CFBundleIconFile</key>
+  <string>AppIcon.icns</string>
   <key>CFBundleName</key>
+  <string>ChatGPT Touch Bar</string>
+  <key>CFBundleDisplayName</key>
   <string>ChatGPT Touch Bar</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
+  <key>CFBundleLocalizations</key>
+  <array>
+    <string>en</string>
+    <string>ja</string>
+  </array>
   <key>CFBundleShortVersionString</key>
-  <string>0.2.0</string>
+  <string>0.3.0</string>
   <key>CFBundleVersion</key>
-  <string>2</string>
+  <string>3</string>
   <key>LSMinimumSystemVersion</key>
   <string>12.0</string>
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.utilities</string>
   <key>LSUIElement</key>
   <true/>
   <key>NSHighResolutionCapable</key>
   <true/>
   <key>NSAppleEventsUsageDescription</key>
-  <string>ChatGPTのWebタブを検出してTouch Barに使用量を表示するため、Safariの現在のタブURLを確認します。</string>
+  <string>ChatGPT Touch Bar reads only Safari's active tab URL to detect supported ChatGPT pages and show usage on the Touch Bar.</string>
 </dict>
 </plist>

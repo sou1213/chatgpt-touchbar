@@ -1,0 +1,2 @@
+"CFBundleDisplayName" = "ChatGPT Touch Bar";
+"NSAppleEventsUsageDescription" = "ChatGPTの対応ページを検出してTouch Barに使用量を表示するため、Safariで現在開いているタブのURLだけを読み取ります。";

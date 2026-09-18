@@ -5,6 +5,7 @@
 [English](README.md) | **日本語**
 
 [![CI](https://img.shields.io/github/actions/workflow/status/sou1213/chatgpt-touchbar/ci.yml?branch=main&label=CI)](https://github.com/sou1213/chatgpt-touchbar/actions/workflows/ci.yml)
+[![最新リリース](https://img.shields.io/github/v/release/sou1213/chatgpt-touchbar?display_name=tag&label=release)](https://github.com/sou1213/chatgpt-touchbar/releases/latest)
 [![License](https://img.shields.io/github/license/sou1213/chatgpt-touchbar?label=license)](LICENSE)
 [![macOS 12+](https://img.shields.io/badge/macOS-12%2B-black?logo=apple)](#必要環境)
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9%2B-F05138?logo=swift&logoColor=white)](#必要環境)
@@ -83,13 +84,29 @@ Safariで`chatgpt.com`を最前面にした状態です。画像はv0.2.0のも�
 
 - Touch Bar付きのMacBook Pro
 - macOS 12 Monterey以降
-- Swift 5.9以降とXcode Command Line Tools
 - ログイン済みのChatGPT、Codex、またはCodex CLI
 - Web版を検出する場合はSafari（ほかのブラウザには未対応）
 
+ソースコードからビルドする場合のみ、Swift 5.9以降とXcode Command Line Toolsが必要です。リリース版アプリのインストールには必要ありません。
+
+リリース版はUniversal Binaryで、IntelとApple Siliconの両方のTouch Bar搭載モデルに対応します。
+
 ## インストール
 
-現在は署名済みバイナリを配布していないため、ソースコードからビルドします。
+### アプリをダウンロードする（推奨）
+
+1. [最新のGitHub Release](https://github.com/sou1213/chatgpt-touchbar/releases/latest)を開きます。
+2. `ChatGPTTouchBar-…-macOS.dmg`をダウンロードして開きます。
+3. **ChatGPTTouchBar.app**を**Applications**ショートカットへドラッグします。
+4. 「アプリケーション」フォルダからChatGPT Touch Barを起動します。
+
+Releaseの配布物はDeveloper IDで署名し、Appleの公証を通したうえで、公証チケットをstapleします。バックグラウンドで動作するヘルパーのため、起動してもDockアイコンやウインドウは表示されません。
+
+アーカイブ形式を好む場合は、同じアプリを収録したZIPも利用できます。各Releaseには`SHA256SUMS.txt`と、GitHub Actionsで生成したビルド来歴の証明も添付します。
+
+### ソースコードからビルドする（CLI）
+
+従来のCLIによるインストール方法も維持しています。
 
 ```bash
 git clone https://github.com/sou1213/chatgpt-touchbar.git
@@ -99,13 +116,13 @@ swift test
 open dist/ChatGPTTouchBar.app
 ```
 
-生成されるアプリはアドホック署名され、Dockには表示されません。常用する場合は、Finderで`dist/ChatGPTTouchBar.app`を「アプリケーション」フォルダへコピーして起動し、「システム設定 → 一般 → ログイン項目」へ追加してください。macOS Montereyでは「システム環境設定 → ユーザとグループ」にあります。
+ローカルで生成されるアプリはアドホック署名され、Dockには表示されません。常用する場合は、Finderで`dist/ChatGPTTouchBar.app`を「アプリケーション」フォルダへコピーして起動し、「システム設定 → 一般 → ログイン項目」へ追加してください。macOS Montereyでは「システム環境設定 → ユーザとグループ」にあります。
 
 `swift`が見つからない場合は、`xcode-select --install`でCommand Line Toolsをインストールしてください。`swift --version`で5.9以降になっていることを確認します。
 
 ### 更新とアンインストール
 
-更新するときは`git pull --ff-only`の後に`./scripts/build_app.sh`を実行します。起動中のヘルパーを終了してから、インストール済みのアプリを新しいビルドへ入れ替えて起動してください。
+Release版を更新するときは、最新のDMGをダウンロードし、ChatGPT Touch Barを終了してから「アプリケーション」フォルダのアプリを置き換えます。ソース版は`git pull --ff-only`の後に`./scripts/build_app.sh`を実行します。起動中のヘルパーを終了してから、インストール済みのアプリを新しいビルドへ入れ替えて起動してください。
 
 終了するには、アクティビティモニタを使うか、次のコマンドを実行します。
 
@@ -120,6 +137,8 @@ pkill -x ChatGPTTouchBar
 初回の検出時に、ChatGPT Touch BarがSafariを操作することを許可するかmacOSから確認されます。現在のタブURLを取得するために許可してください。
 
 拒否した場合は「システム設定 → プライバシーとセキュリティ → オートメーション」から後で変更できます。
+
+v0.3.0より前のビルドから更新した場合は、公開用のBundle IDへ切り替わるため、権限確認がもう一度表示されることがあります。
 
 読み取るのは現在のSafariタブのURLだけです。画面、ページ本文、Cookie、メッセージ、入力内容は取得しません。
 
@@ -178,9 +197,12 @@ Issueを作成するときは、Macの機種、macOSのバージョン、エラ�
 swift test
 swift run ChatGPTTouchBar --once-json
 ./scripts/build_app.sh
+./scripts/package_release.sh 0.3.0
 ```
 
 README画像の編集用SVGは[`design/readme-hero.svg`](design/readme-hero.svg)にあります。初期のレイアウト案を含むデザイン素材は[`design/`](design/)にあります。
+
+正式な配布物は、バージョンタグを起点にしたGitHub Actionsだけで生成します。メンテナーは[`docs/RELEASING.ja.md`](docs/RELEASING.ja.md)に従ってください。ローカルで作成したパッケージは動作確認用であり、公式Releaseとして公開しません。
 
 コントリビューションを歓迎します。詳しくは[`CONTRIBUTING.md`](CONTRIBUTING.md)を参照してください。
 
@@ -196,6 +218,7 @@ README画像の編集用SVGは[`design/readme-hero.svg`](design/readme-hero.svg)
 - システムモーダルとしてTouch Barを表示するために、macOSの非公開セレクタを使用しています。Mac App Storeでの配布には適さず、macOSの更新後に動作しなくなる可能性があります。
 - 対応ブラウザはSafariのみです。
 - Touch Barを搭載していないMacでは、実機表示を確認できません。
+- ローカルビルドはアドホック署名です。Developer ID署名とApple公証の対象は、公式GitHub Releaseに添付された配布物だけです。
 - このプロジェクトは非公式であり、OpenAIによる承認・提携を受けたものではありません。ChatGPT、Codex、OpenAIロゴは各権利者の商標です。
 
 ## ライセンス
